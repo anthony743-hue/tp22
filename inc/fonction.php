@@ -27,8 +27,7 @@ function getDepartments_manager(){
 }
 
 function getEmployees_departments($name){
-    $req = "SELECT employees.first_name, employees.last_name, departments.dept_name 
-FROM departments JOIN
+    $req = "SELECT employees.first_name 'nom', employees.last_name 'prenom' FROM departments JOIN
 dept_emp ON departments.dept_no = dept_emp.dept_no
 JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name LIKE '%s'";
     $req = sprintf($req, $name);
