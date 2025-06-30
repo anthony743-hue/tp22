@@ -17,16 +17,20 @@ $employee = getEmployees_departments($n);
         <section>
             <article class="container">
             <table class="table table-striped table-hover">
+                    <thead  class="table-dark">
                     <tr>
-                        <td>Nom</td>
-                        <td>prenom</td>
+                        <td> # </td>
+                        <td>Nom et prenom</td>
                     </tr>
-                <?php foreach( $employee as $ligne ){ ?>
+                    </thead>
+                <tbody>
+                <?php $count = 0; foreach( $employee as $ligne ){ $count++; ?>
                     <tr>
-                        <td><?= $ligne['nom']; ?></td>
-                        <td><?= $ligne['prenom']; ?></td>
+                        <td><?= $count; ?></td>
+                        <td><a href="fiche.php?nom=<?= $ligne['nom']; ?>&prenom=<?= $ligne['prenom']; ?>" class="text-primary"><?= $ligne['nom']; ?> <?= $ligne['prenom']; ?></a></td>
                     </tr>
                 <?php } ?>   
+                </tbody>
             </table>
             </article>
         </section>
