@@ -123,7 +123,6 @@ function getRelative_Employees($dep,$name, $min, $max){
 dept_emp ON departments.dept_no = dept_emp.dept_no
 JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name LIKE '%s' )";
     $req = sprintf($req, $name, $min, $max, $dep);
-    echo $req;
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
     while( $done = mysqli_fetch_assoc($resultat) ){
@@ -135,7 +134,7 @@ JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name
 
 //fonction qui affiche les 20 premiers resultats
 function affigheResultats(){
-    $req = "SELECT * FROM etudiants LIMIT 20, 20";
+    $req = "SELECT * FROM employees LIMIT 20, 20";
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
     while( $done = mysqli_fetch_assoc($resultat) ){
