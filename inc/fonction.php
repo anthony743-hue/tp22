@@ -116,9 +116,12 @@ function getAverageEmployee_age(){
     return $rows;
 }
 
+//
 function getRelative_Employees($name, $min, $max){
-    $req = "SELECT * FROM employees WHERE first_name LIKE '%s' 
-    AND 2025 - YEAR(birth_date) >= '%s' AND 2025 - YEAR(birth_date) <= '%s'";
+    $req = "SELECT first_name, (2025 - YEAR(birth_date)) as age
+     FROM employees WHERE first_name LIKE '%s' 
+    AND age >= '%s' AND age <= '%s'";
+    $req = sprintf($req, $name, $min, $max);
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
     while( $done = mysqli_fetch_assoc($resultat) ){

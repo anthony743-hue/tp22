@@ -4,5 +4,6 @@ $dep = $_GET['departement'];
 $name = $_GET['nom'];
 $min = $_POST['min'];
 $max = $_POST['max'];
-$emp = getRelative_Employees();
+$emp = getRelative_Employees($name, $min, $max);
+var_dump($emp);
 ?>
