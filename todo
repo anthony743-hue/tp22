@@ -3,3 +3,5 @@ FROM departments JOIN
 dept_emp ON departments.dept_no = dept_emp.dept_no
 JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name LIKE ;
 
+SELECT * FROM employees WHERE first_name LIKE 'Aamer' 
+    AND (2025 - YEAR(birth_date)) >= 61 AND (2025 - YEAR(birth_date)) <= 67

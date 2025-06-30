@@ -116,12 +116,26 @@ function getAverageEmployee_age(){
     return $rows;
 }
 
-//
-function getRelative_Employees($name, $min, $max){
-    $req = "SELECT first_name, (2025 - YEAR(birth_date)) as age
-     FROM employees WHERE first_name LIKE '%s' 
-    AND age >= '%s' AND age <= '%s'";
-    $req = sprintf($req, $name, $min, $max);
+function getRelative_Employees($dep,$name, $min, $max){
+    $req = "SELECT * FROM employees WHERE first_name LIKE '%s' 
+    AND (2025 - YEAR(birth_date)) >= '%s' AND(2025 - YEAR(birth_date))<= '%s'
+     AND emp_no IN ( SELECT employees.emp_no FROM departments JOIN
+dept_emp ON departments.dept_no = dept_emp.dept_no
+JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name LIKE '%s' )";
+    $req = sprintf($req, $name, $min, $max, $dep);
+    echo $req;
+    $resultat = mysqli_query(dbconnect(), $req);
+    $retour = array();
+    while( $done = mysqli_fetch_assoc($resultat) ){
+        $retour[] = $done;
+    }
+    mysqli_free_result($resultat);
+    return $retour; 
+}
+
+//fonction qui affiche les 20 premiers resultats
+function affigheResultats(){
+    $req = "SELECT * FROM etudiants LIMIT 20, 20";
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
     while( $done = mysqli_fetch_assoc($resultat) ){

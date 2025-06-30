@@ -2,10 +2,19 @@
 include("../inc/fonction.php");
 $nom = $_GET['nom'];
 $prenom = $_GET['prenom'];
+
 $info = getInfo_employee($nom, $prenom);
-$id_employee = $info['emp_no'];
-$titles = getTitle_employee($id_employee);
-$salaries = getHistoriq_salaries($id_employee);
+
+if (!$info) {
+    $id_employee = null;
+    $titles = [];
+    $salaries = [];
+    $error_message = "Aucune information trouvée pour l'employé " . htmlspecialchars($nom) . " " . htmlspecialchars($prenom) . ".";
+} else {
+    $id_employee = $info['emp_no'];
+    $titles = getTitle_employee($id_employee);
+    $salaries = getHistoriq_salaries($id_employee);
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,86 +22,152 @@ $salaries = getHistoriq_salaries($id_employee);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fiche de l'Employé: <?= htmlspecialchars($nom); ?> <?= htmlspecialchars($prenom); ?></title>
     <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-custom {
+            border-radius: .5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .info-item {
+            padding-top: .5rem;
+            padding-bottom: .5rem;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        Fiche d'information de l'employee : <?= $nom; ?> <?= $prenom; ?> 
+    <header class="bg-primary text-white py-3 mb-4">
+        <div class="container">
+            <h1 class="h3 text-center">
+                Fiche d'information de l'employé :
+                <span class="text-warning"><?= htmlspecialchars($nom); ?> <?= htmlspecialchars($prenom); ?></span>
+            </h1>
+        </div>
     </header>
-    <main class="container">
-        <article class="row">
-        <section class="col-lg-4 col-md-12 p-3 border border-light-subtle mt-4">
-            <div class="row">
-                <div class="col-6">Nom</div>
-                <div class="col-6"><?= $nom; ?></div>
+
+    <main class="container py-4">
+        <?php if (isset($error_message)) { ?>
+            <div class="alert alert-danger text-center" role="alert">
+                <?= $error_message; ?>
+                <br><a href="javascript:history.back()" class="btn btn-danger mt-2">Retour</a>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-6">Prenom</div>
-                <div class="col-6"><?= $prenom; ?></div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-6">Date de naissance</div>
-                <div class="col-6"><?= $info['birth_date']; ?></div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-6">Sexe</div>
-                <div class="col-6"><?= $info['gender'] == 'M' ? 'Masculin' : 'Feminin';?></div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-6">Date d'engagement</div>
-                <div class="col-6"><?= $info['hire_date']; ?></div>
-            </div>
-</section>
-        <article class="row">
-        <section class="col-lg-8 col-md-12 mt-5">
-        <caption>Historique des emplois</caption>
-                <table class="table table-striped table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <td>Emploi</td>
-                            <td>Date de debut</td>
-                            <td>Date de fin</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($titles as $row) { ?>
-                            <tr>
-                                <td><?= $row['title']; ?></td>
-                                <td><?= $row['from_date']; ?></td>
-                                <td><?= $row['to_date']; ?></td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+        <?php } else { ?>
+            <div class="row g-4">
+                <section class="col-lg-4 col-md-12">
+                    <div class="card h-100 card-custom">
+                        <div class="card-header bg-light">
+                            <h4 class="card-title mb-0">Informations Personnelles</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row info-item">
+                                <div class="col-6 fw-bold">Nom :</div>
+                                <div class="col-6"><?= htmlspecialchars($nom); ?></div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="row info-item">
+                                <div class="col-6 fw-bold">Prénom :</div>
+                                <div class="col-6"><?= htmlspecialchars($prenom); ?></div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="row info-item">
+                                <div class="col-6 fw-bold">Date de naissance :</div>
+                                <div class="col-6"><?= htmlspecialchars($info['birth_date']); ?></div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="row info-item">
+                                <div class="col-6 fw-bold">Sexe :</div>
+                                <div class="col-6"><?= $info['gender'] == 'M' ? 'Masculin' : 'Féminin';?></div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="row info-item">
+                                <div class="col-6 fw-bold">Date d'engagement :</div>
+                                <div class="col-6"><?= htmlspecialchars($info['hire_date']); ?></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="col-lg-8 col-md-12">
+                    <div class="row g-4">
+                        <section class="col-12">
+                            <div class="card card-custom">
+                                <div class="card-header bg-light">
+                                    <h4 class="card-title mb-0">Historique des Postes</h4>
+                                </div>
+                                <div class="card-body">
+                                    <?php if (!empty($titles)) { ?>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover align-middle">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th scope="col">Poste</th>
+                                                        <th scope="col">Date de Début</th>
+                                                        <th scope="col">Date de Fin</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach($titles as $row) { ?>
+                                                        <tr>
+                                                            <td><?= htmlspecialchars($row['title']); ?></td>
+                                                            <td><?= htmlspecialchars($row['from_date']); ?></td>
+                                                            <td><?= htmlspecialchars($row['to_date']); ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    <?php } else { ?>
+                                        <div class="alert alert-info text-center" role="alert">
+                                            Aucun historique de poste trouvé pour cet employé.
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
                         </section>
-                        <section class="col-lg-8 col-md-12 mt-3">
-        <caption>Historique des salaires</caption>
-            <table class="table table-striped table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <td>Salaire</td>
-                            <td>Date de debut</td>
-                            <td>Date de fin</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($salaries as $row) { ?>
-                            <tr>
-                                <td><?= $row['salary']; ?></td>
-                                <td><?= $row['from_date']; ?></td>
-                                <td><?= $row['to_date']; ?></td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+
+                        <section class="col-12">
+                            <div class="card card-custom">
+                                <div class="card-header bg-light">
+                                    <h4 class="card-title mb-0">Historique des Salaires</h4>
+                                </div>
+                                <div class="card-body">
+                                    <?php if (!empty($salaries)) { ?>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover align-middle">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th scope="col">Salaire</th>
+                                                        <th scope="col">Date de Début</th>
+                                                        <th scope="col">Date de Fin</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach($salaries as $row) { ?>
+                                                        <tr>
+                                                            <td><?= htmlspecialchars(number_format($row['salary'], 2, ',', ' ')); ?></td>
+                                                            <td><?= htmlspecialchars($row['from_date']); ?></td>
+                                                            <td><?= htmlspecialchars($row['to_date']); ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    <?php } else { ?>
+                                        <div class="alert alert-info text-center" role="alert">
+                                            Aucun historique de salaire trouvé pour cet employé.
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
                         </section>
-        </article>
-        </article>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center mt-5">
+                <a href="javascript:history.back()" class="btn btn-secondary btn-lg">Retour</a>
+            </div>
+        <?php } ?>
     </main>
     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
