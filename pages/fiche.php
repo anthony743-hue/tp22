@@ -1,8 +1,9 @@
 <?php
+session_start();
 include("../inc/fonction.php");
 $nom = $_GET['nom'];
 $prenom = $_GET['prenom'];
-
+$departmentName = $_SESSION['departement_nom'];
 $info = getInfo_employee($nom, $prenom);
 
 if (!$info) {
@@ -14,6 +15,8 @@ if (!$info) {
     $id_employee = $info['emp_no'];
     $titles = getTitle_employee($id_employee);
     $salaries = getHistoriq_salaries($id_employee);
+    $emploi = getEmploi_name($id_employee);
+    $current_salary =  getCurrent_salary($id_employee);
 }
 ?>
 
@@ -82,6 +85,22 @@ if (!$info) {
                             <div class="row info-item">
                                 <div class="col-6 fw-bold">Date d'engagement :</div>
                                 <div class="col-6"><?= htmlspecialchars($info['hire_date']); ?></div>
+                            </div>
+
+                            <hr class="my-2">
+                            <div class="row info-item">
+                                <div class="col-6 fw-bold">Departement</div>
+                                <div class="col-6"><?= $_SESSION['departement_nom']; ?></div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="row info-item">
+                                <div class="col-6 fw-bold">Emploi actuel</div>
+                                <div class="col-6"><?= htmlspecialchars($emploi['title']); ?></div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="row info-item">
+                                <div class="col-6 fw-bold">Salaire actuel</div>
+                                <div class="col-6"><?= htmlspecialchars($current_salary['salary']); ?> $</div>
                             </div>
                         </div>
                     </div>

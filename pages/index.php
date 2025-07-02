@@ -1,8 +1,10 @@
 <?php
 include("../inc/fonction.php");
+init_employees();
+init_current_employees();
+init_departments();
 $dep = getDepartments();
 $dep_m = getDepartments_manager();
-$name = getName_employees();
 $min = getMinEmployee_age()['age'];
 $avg = (int) getAverageEmployee_age()['age'];
 $max = getMaxEmployee_age()['age'];
@@ -40,33 +42,31 @@ $max = getMaxEmployee_age()['age'];
                         <div class="mb-3">
                             <label for="departementSelect" class="form-label">Sélectionner un département :</label>
                             <select name="departement" id="departementSelect" class="form-select">
-                                <?php foreach($dep as $row) { ?>
+                                    <option value="Tous">Tous</option>    
+                            <?php foreach($dep as $row) { ?>
                                     <option value="<?= $row['dept_name']; ?>"><?= $row['dept_name']; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="nomEmployeSelect" class="form-label">Sélectionner un nom d'employé :</label>
-                            <select name="nom" id="nomEmployeSelect" class="form-select">
-                                <?php foreach($name as $row) { ?>
-                                    <option value="<?= $row['first_name']; ?>"><?= $row['first_name']; ?></option>
-                                <?php } ?>
-                            </select>
+                            <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control" name="nom" placeholder="" aria-label="Username" aria-describedby="addon-wrapping">
+                            </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="minAge" class="form-label">Âge Minimum :</label>
-                                <input type="number" class="form-control" id="minAge" name="min" value="<?= $min ?>" min="<?= $min?>" max="<?= $avg; ?>" required>
-                                <small class="form-text text-muted">Min: <?= $min ?>, Avg: <?= $avg ?></small>
+                                <input type="number" class="form-control" id="minAge" name="min" value="<?= 0 ?>" min=0 max="<?= $avg; ?>" required>
                             </div>
                             <div class="col">
                                 <label for="maxAge" class="form-label">Âge Maximum :</label>
                                 <input type="number" class="form-control" id="maxAge" name="max" value="<?= $max ?>" min="<?= $avg; ?>" max="<?= $max; ?>" required>
-                                <small class="form-text text-muted">Avg: <?= $avg ?>, Max: <?= $max ?></small>
                             </div>
                         </div>
                         <div class="d-grid mt-4">
                             <button type="submit" class="btn btn-primary btn-lg">Rechercher</button>
+                            <a href="details.php">Details</a>
                         </div>
                     </form>
                 </div>
@@ -81,15 +81,17 @@ $max = getMaxEmployee_age()['age'];
                                     <th scope="col">Département</th>
                                     <th scope="col">Nom du Manager</th>
                                     <th scope="col">Prénom du Manager</th>
+                                    <th scope="col">Nombre d employe</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if (!empty($dep_m)) { ?>
                                     <?php foreach( $dep_m as $ligne ){ ?>
                                         <tr>
-                                            <td><a href="employee.php?nom=<?= urlencode($ligne['departement']); ?>" class="text-primary text-decoration-none"><?= $ligne['departement']; ?></a></td>
+                                            <td><a href="employee.php?nom=<?= urlencode($ligne['departement']);?>" class="text-primary text-decoration-none"><?= $ligne['departement']; ?></a></td>
                                             <td><?= $ligne['nom']; ?></td>
                                             <td><?= $ligne['prenom']; ?></td>
+                                            <td><?= countEmploye($ligne['no'])['nb'];?></td>
                                         </tr>
                                     <?php } ?>
                                 <?php } else { ?>

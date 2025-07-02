@@ -1,7 +1,8 @@
 <?php
+session_start();
 include("../inc/fonction.php");
-
 $departmentName = $_GET['nom'];
+$_SESSION['departement_nom'] = $departmentName;
 $employees = getEmployees_departments($departmentName);
 ?>
 
@@ -24,7 +25,9 @@ $employees = getEmployees_departments($departmentName);
 <body>
     <main class="container py-4">
         <h1 class="mb-4 text-center">Employés du Département: <span class="text-primary"><?= htmlspecialchars($departmentName); ?></span></h1>
-
+        <div class="d-flex justify-content-center mt-4">
+            <a href="deconnect.php" class="btn btn-secondary">Retour</a>
+        </div>
         <div class="table-container">
             <?php if (!empty($employees)) { ?>
                 <div class="table-responsive">
@@ -54,9 +57,6 @@ $employees = getEmployees_departments($departmentName);
                     Aucun employé trouvé pour le département "<?= htmlspecialchars($departmentName); ?>".
                 </div>
             <?php } ?>
-            <div class="d-flex justify-content-center mt-4">
-                <a href="javascript:history.back()" class="btn btn-secondary">Retour</a>
-            </div>
         </div>
     </main>
     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
