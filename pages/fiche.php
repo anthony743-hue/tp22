@@ -39,16 +39,37 @@ if (!$info) {
     </style>
 </head>
 <body>
-    <header class="bg-primary text-white py-3 mb-4">
-        <div class="container">
+    <header class="py-3 mb-4">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Entreprise 22</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav" style="margin-left: 200px;">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="details.php">Gestion des emplois</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Rechercher</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    </header>
+
+    <main class="container py-4">
+            <div class="bg-primary text-white container">
             <h1 class="h3 text-center">
                 Fiche d'information de l'employé :
                 <span class="text-warning"><?= htmlspecialchars($nom); ?> <?= htmlspecialchars($prenom); ?></span>
             </h1>
         </div>
-    </header>
-
-    <main class="container py-4">
         <?php if (isset($error_message)) { ?>
             <div class="alert alert-danger text-center" role="alert">
                 <?= $error_message; ?>

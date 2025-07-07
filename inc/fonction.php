@@ -1,6 +1,29 @@
 <?php
 require("connect.php");
 
+function initEmployees(){
+    $req = "create or replace view v_employees_departments 
+as select dept_no, v1.emp_no, birth_date, first_name, last_name, gender, hire_date,
+from_date, to_date 
+FROM employees v1 JOIN dept_emp v2 ON v1.emp_no = v2.emp_no";
+mysqli_query(dbconnect(), $req);
+}
+
+function init_current_Employees(){
+    $req = "create or replace view v_current_employees_departments
+as select * FROM v_employees_departments 
+WHERE to_date = ( select max(to_date) FROM v_employees_departments )";
+mysqli_query(dbconnect(), $req);
+}
+
+function init_managers_departments(){
+    $req = "create or replace view v_managers_departments
+as select dept_no, v1.emp_no, birth_date, first_name, last_name, gender, hire_date,
+from_date, to_date 
+FROM employees v1 JOIN dept_manager v2 ON v1.emp_no = v2.emp_no";
+mysqli_query(dbconnect(), $req);
+}
+
 // Obtenir la liste des noms des departements distincts
 function getDepartments(){
     $req = "SELECT * from departments GROUP BY dept_name";
@@ -13,35 +36,9 @@ function getDepartments(){
     return $retour; 
 }
 
-function init_employees(){
-    $req = "create or replace view v_employees_departments as 
-select v1.dept_no,v2.emp_no, birth_date,first_name, 
-last_name,gender,hire_date,from_date,to_date from employees as v2
-JOIN dept_emp as v1 ON v2.emp_no = v1.emp_no";
-    mysqli_query(dbconnect(), $req);
-}
-
-function init_current_employees(){
-    $req = "create or replace view v_current_employees_departments as
-select * from v_employees_departments WHERE to_date = ( select max(to_date) from v_employees_departments )";
-mysqli_query(dbconnect(), $req);
-}
-
-function init_departments(){
-    $req = "create or replace view v_current_departments as
-select * from departments GROUP BY dept_name";
-    mysqli_query(dbconnect(), $req);
-}
-
 // Obtenir la listes des managers en cours pour chacun des departements
 function getDepartments_manager(){
-    $req = "SELECT employees.first_name 'nom', employees.last_name 'prenom', departments.dept_name 'departement',
-    departments.dept_no 'no', dept_manager.from_date 
-    FROM departments JOIN
-    dept_manager ON departments.dept_no = dept_manager.dept_no
-    JOIN employees ON dept_manager.emp_no = employees.emp_no 
-    WHERE dept_manager.from_date IN ( SELECT MAX(dept_manager.from_Date) FROM departments JOIN
-    dept_manager ON departments.dept_no = dept_manager.dept_no GROUP BY departments.dept_name ) ORDER BY departments.dept_name";
+    $req = "SELECT * FROM v_current_managers_departments";
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
     while( $done = mysqli_fetch_assoc($resultat) ){
@@ -53,9 +50,8 @@ function getDepartments_manager(){
 
 // Obtenir les employees d'un departement
 function getEmployees_departments($name){
-    $req = "SELECT employees.first_name 'nom', employees.last_name 'prenom' FROM departments JOIN
-dept_emp ON departments.dept_no = dept_emp.dept_no
-JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name LIKE '%s'";
+    $req = "SELECT * FROM  v_current_employees_departments
+     WHERE dept_no LIKE '%s'";
     $req = sprintf($req, $name);
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
@@ -70,6 +66,16 @@ JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name
 function getInfo_employee($name, $last_name){
     $req = "SELECT * FROM employees WHERE first_name LIKE '%s' and last_name LIKE '%s'";
     $req = sprintf($req, $name, $last_name);
+    $resultat = mysqli_query(dbconnect(), $req);
+    $rows = mysqli_fetch_assoc($resultat);
+    return $rows;
+}
+
+function getDepartmentName($dept_no){
+    $req = "SELECT dept_name 
+        FROM v_current_departments 
+        WHERE dept_no LIKE '%s'";
+    $req = sprintf($req, $dept_no);
     $resultat = mysqli_query(dbconnect(), $req);
     $rows = mysqli_fetch_assoc($resultat);
     return $rows;
@@ -94,6 +100,17 @@ function getHistoriq_salaries($id){
     $req = "SELECT * FROM salaries WHERE emp_no = '%s' 
     AND from_date NOT IN ( SELECT MAX(from_date) FROM salaries WHERE emp_no = '%s' )";
     $req = sprintf($req, $id, $id);
+    $resultat = mysqli_query(dbconnect(), $req);
+    $retour = array();
+    while( $done = mysqli_fetch_assoc($resultat) ){
+        $retour[] = $done;
+    }
+    mysqli_free_result($resultat);
+    return $retour; 
+}
+
+function getDetailledEmploi(){
+    $req = "SELECT * FROM v_salary_title";
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
     while( $done = mysqli_fetch_assoc($resultat) ){
@@ -238,34 +255,4 @@ JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name
     $rows = mysqli_fetch_assoc($resultat);
     return $rows['compte'];
 }
-
-//nombre d employe
-function countEmploye($nom_dep){
-    $req = "SELECT count(emp_no) as nb FROM dept_emp WHERE dept_no like '%s'";
-    $req = sprintf($req, $nom_dep);
-    $resultat = mysqli_query(dbconnect(), $req);
-    $data = mysqli_fetch_assoc($resultat);
-    return $data;
-}
-
-function countEmployeHommes($nom_dep){
-    $req = "SELECT count(emp_no) as nbHomme FROM dept_emp WHERE dept_no like '%s' AND gender like 'M'";
-    $req = sprintf($req, $nom_dep);
-    $resultat = mysqli_query(dbconnect(), $req);
-    $data = mysqli_fetch_assoc($resultat);
-    return $data;
-}
-
-function countEmployeFemmes($nom_dep){
-    $req = "SELECT count(emp_no) as nbFemme FROM dept_emp WHERE dept_no like '%s' AND gender like 'F'";
-    $req = sprintf($req, $nom_dep);
-    $resultat = mysqli_query(dbconnect(), $req);
-    $data = mysqli_fetch_assoc($resultat);
-    return $data;
-}
-
-
-
 ?>
-
-

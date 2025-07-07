@@ -1,9 +1,10 @@
 <?php
 session_start();
 include("../inc/fonction.php");
-$departmentName = $_GET['nom'];
-$_SESSION['departement_nom'] = $departmentName;
-$employees = getEmployees_departments($departmentName);
+$department_id = $_GET['nom'];
+$departmentName = getDepartmentName($department_id);
+$_SESSION['departement_nom'] = $departmentName['dept_name'];
+$employees = getEmployees_departments($department_id);
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +12,7 @@ $employees = getEmployees_departments($departmentName);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employés du Département: <?= htmlspecialchars($departmentName); ?></title>
+    <title>Employés du Département: <?= htmlspecialchars($departmentName['dept_name']); ?></title>
     <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .table-container {
@@ -23,8 +24,32 @@ $employees = getEmployees_departments($departmentName);
     </style>
 </head>
 <body>
+<header>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<div class="container-fluid">
+<a class="navbar-brand" href="#">Entreprise 22</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="navbar-nav" style="margin-left: 200px;">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="details.php">Gestion des emplois</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Rechercher</a>
+    </li>
+  </ul>
+</div>
+</div>
+</nav>
+</header>
     <main class="container py-4">
-        <h1 class="mb-4 text-center">Employés du Département: <span class="text-primary"><?= htmlspecialchars($departmentName); ?></span></h1>
+        <h1 class="mb-4 text-center">Employés du Département: <span class="text-primary"><?= htmlspecialchars($departmentName['dept_name']); ?></span></h1>
         <div class="d-flex justify-content-center mt-4">
             <a href="deconnect.php" class="btn btn-secondary">Retour</a>
         </div>
@@ -43,8 +68,8 @@ $employees = getEmployees_departments($departmentName);
                                 <tr>
                                     <td><?= $count; ?></td>
                                     <td>
-                                        <a href="fiche.php?nom=<?= urlencode($employee['nom']); ?>&prenom=<?= urlencode($employee['prenom']); ?>" class="text-primary text-decoration-none">
-                                            <?= htmlspecialchars($employee['nom']); ?> <?= htmlspecialchars($employee['prenom']); ?>
+                                        <a href="fiche.php?nom=<?= urlencode($employee['first_name']); ?>&prenom=<?= urlencode($employee['last_name']); ?>" class="text-primary text-decoration-none">
+                                            <?= htmlspecialchars($employee['first_name']); ?> <?= htmlspecialchars($employee['last_name']); ?>
                                         </a>
                                     </td>
                                 </tr>

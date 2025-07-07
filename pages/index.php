@@ -1,8 +1,5 @@
 <?php
 include("../inc/fonction.php");
-init_employees();
-init_current_employees();
-init_departments();
 $dep = getDepartments();
 $dep_m = getDepartments_manager();
 $min = getMinEmployee_age()['age'];
@@ -32,6 +29,30 @@ $max = getMaxEmployee_age()['age'];
     </style>
 </head>
 <body>
+    <header>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Entreprise 22</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav" style="margin-left: 200px;">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="details.php">Gestion des emplois</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Rechercher</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    </header>
     <main class="container py-4">
         <h1 class="mb-4 text-center">Tableau de Bord des Employés</h1>
         <div class="row g-4">
@@ -66,7 +87,6 @@ $max = getMaxEmployee_age()['age'];
                         </div>
                         <div class="d-grid mt-4">
                             <button type="submit" class="btn btn-primary btn-lg">Rechercher</button>
-                            <a href="details.php">Details</a>
                         </div>
                     </form>
                 </div>
@@ -88,10 +108,10 @@ $max = getMaxEmployee_age()['age'];
                                 <?php if (!empty($dep_m)) { ?>
                                     <?php foreach( $dep_m as $ligne ){ ?>
                                         <tr>
-                                            <td><a href="employee.php?nom=<?= urlencode($ligne['departement']);?>" class="text-primary text-decoration-none"><?= $ligne['departement']; ?></a></td>
-                                            <td><?= $ligne['nom']; ?></td>
-                                            <td><?= $ligne['prenom']; ?></td>
-                                            <td><?= countEmploye($ligne['no'])['nb'];?></td>
+                                            <td><a href="employee.php?nom=<?= urlencode($ligne['dept_no']);?>" class="text-primary text-decoration-none"><?= $ligne['dept_name']; ?></a></td>
+                                            <td><?= $ligne['first_name']; ?></td>
+                                            <td><?= $ligne['last_name']; ?></td>
+                                            <td><?= $ligne['compte'];?></td>
                                         </tr>
                                     <?php } ?>
                                 <?php } else { ?>
