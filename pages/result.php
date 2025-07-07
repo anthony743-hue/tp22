@@ -10,7 +10,6 @@ $size = $_SESSION['size'];
 if( !isset($_SESSION['compteur']) ){
     $_SESSION['compteur'] = 0;
 }
-echo $size;
 $cmp = $_SESSION['compteur'];
 $emp = ($dep == "Tous" ) ? getRelate_Employees($name, $min, $max, $cmp) : getRelative_Employees($dep, $name, $min, $max, $cmp);
 $resultsToDisplay = $emp;
@@ -85,9 +84,7 @@ $resultsToDisplay = $emp;
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nom Complet</th>
-                                <th scope="col">Date de Naissance</th>
-                                <th scope="col">Genre</th>
-                                <th scope="col">Date d'embauche</th>
+                                <th scope="col">Informations</th>
                                 </tr>
                         </thead>
                         <tbody>
@@ -97,9 +94,11 @@ $resultsToDisplay = $emp;
                                     <td>
                                     <?= htmlspecialchars($employee['first_name']); ?> <?= htmlspecialchars($employee['last_name']); ?>
                                     </td>
-                                    <td><?= htmlspecialchars($employee['birth_date'] ?? 'N/A'); ?></td>
-                                    <td><?= htmlspecialchars($employee['gender'] == 'M' ? 'Masculin' : 'Féminin' ?? 'N/A'); ?></td>
-                                    <td><?= htmlspecialchars($employee['hire_date'] ?? 'N/A'); ?></td>
+                                    <td>
+                                        <a href="fiche.php?nom=<?= urlencode($employee['first_name']); ?>&prenom=<?= urlencode($employee['last_name']); ?>" class="d-inline-flex focus-ring focus-ring-primary py-1 px-2 text-decoration-none border rounded-2">
+                                            Voir plus
+                                        </a>
+                                    </td>
                                     </tr>
                             <?php } ?>
                         </tbody>

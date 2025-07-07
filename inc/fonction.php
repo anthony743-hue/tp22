@@ -24,6 +24,12 @@ FROM employees v1 JOIN dept_manager v2 ON v1.emp_no = v2.emp_no";
 mysqli_query(dbconnect(), $req);
 }
 
+function init_current_departments(){
+    $req = "create or replace view v_current_departments
+as select * from departments GROUP BY dept_name";
+mysqli_query(dbconnect(), $req);
+}
+
 // Obtenir la liste des noms des departements distincts
 function getDepartments(){
     $req = "SELECT * from departments GROUP BY dept_name";
@@ -64,7 +70,7 @@ function getEmployees_departments($name){
 
 // Obtenir les infos personnelles d'un employee
 function getInfo_employee($name, $last_name){
-    $req = "SELECT * FROM employees WHERE first_name LIKE '%s' and last_name LIKE '%s'";
+    $req = "SELECT * FROM v_current_employees_departments WHERE first_name LIKE '%s' and last_name LIKE '%s'";
     $req = sprintf($req, $name, $last_name);
     $resultat = mysqli_query(dbconnect(), $req);
     $rows = mysqli_fetch_assoc($resultat);

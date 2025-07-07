@@ -25,6 +25,26 @@ JOIN v_current_employees_departments v3 ON v1.dept_no = v3.dept_no
 WHERE v1.to_date = ( select max(to_date) from v_managers_departments )
 GROUP BY v1.dept_no ORDER BY dept_name;
 
+ $req = "SELECT v2.dept_name as 'departement' FROM v_current_employees_departments v1 
+JOIN departments v2 ON v1.dept_no = v2.dept_no
+WHERE v1.first_name LIKE '%s'
+and v1.last_name LIKE '%s'";
+    $req = sprintf($req, $name, $first_name);
+    $resultat = mysqli_query(dbconnect(), $req);
+    $rows = mysqli_fetch_assoc($resultat);
+    return $rows;
+
+create or replace view v_current_work_employees 
+as select v2.title as 'emploi', v3.salary 'salaire', v1.first_name 'nom', v1.last_name 'prenom'
+FROM
+    v_current_employees_departments v1
+JOIN 
+    titles v2 ON v2.emp_no = v1.emp_no
+JOIN
+    salaries v3 ON v3.emp_no = v1.emp_no
+WHERE v2.to_date = ( SELECT max(to_date) FROM titles ) 
+and v3.to_date = ( SELECT max(to_date) FROM salaries )
+
 create or replace view v_salary_title as
     SELECT
     v2.title as 'emploi',

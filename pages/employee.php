@@ -50,9 +50,6 @@ $employees = getEmployees_departments($department_id);
 </header>
     <main class="container py-4">
         <h1 class="mb-4 text-center">Employés du Département: <span class="text-primary"><?= htmlspecialchars($departmentName['dept_name']); ?></span></h1>
-        <div class="d-flex justify-content-center mt-4">
-            <a href="deconnect.php" class="btn btn-secondary">Retour</a>
-        </div>
         <div class="table-container">
             <?php if (!empty($employees)) { ?>
                 <div class="table-responsive">
