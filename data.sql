@@ -1,8 +1,7 @@
-create or replace view v_employees_departments 
+create or replace view v_employees_departments
 as select dept_no, v1.emp_no, birth_date, first_name, last_name, gender, hire_date,
-from_date, to_date 
-FROM employees v1 JOIN dept_emp v2 ON v1.emp_no = v2.emp_no; 
-
+from_date, to_date
+FROM employees v1 JOIN dept_emp v2 ON v1.emp_no = v2.emp_no;
 
 create or replace view v_current_employees_departments
 as select * FROM v_employees_departments 
@@ -24,15 +23,6 @@ JOIN departments v2 ON v1.dept_no = v2.dept_no
 JOIN v_current_employees_departments v3 ON v1.dept_no = v3.dept_no
 WHERE v1.to_date = ( select max(to_date) from v_managers_departments )
 GROUP BY v1.dept_no ORDER BY dept_name;
-
- $req = "SELECT v2.dept_name as 'departement' FROM v_current_employees_departments v1 
-JOIN departments v2 ON v1.dept_no = v2.dept_no
-WHERE v1.first_name LIKE '%s'
-and v1.last_name LIKE '%s'";
-    $req = sprintf($req, $name, $first_name);
-    $resultat = mysqli_query(dbconnect(), $req);
-    $rows = mysqli_fetch_assoc($resultat);
-    return $rows;
 
 create or replace view v_current_work_employees 
 as select v2.title as 'emploi', v3.salary 'salaire', v1.first_name 'nom', v1.last_name 'prenom'

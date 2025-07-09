@@ -136,18 +136,6 @@ function getEmploi_name($id){
     return $rows;
 }
 
-// Obtenir les noms distincts de chaque employee
-function getName_employees(){
-    $req = "SELECT * from employees GROUP BY first_name";
-    $resultat = mysqli_query(dbconnect(), $req);
-    $retour = array();
-    while( $done = mysqli_fetch_assoc($resultat) ){
-        $retour[] = $done;
-    }
-    mysqli_free_result($resultat);
-    return $retour; 
-}
-
 // Obtenir le salaire actuelle d'un employee
 function getCurrent_salary($id){
     $req = "SELECT * FROM salaries WHERE emp_no = '%s' 
@@ -160,7 +148,7 @@ function getCurrent_salary($id){
 
 // Obtenir l'age minimum sur l'ensemble des employees
 function getMinEmployee_age(){
-    $req = "SELECT MIN(2025 - YEAR(birth_date)) 'age' from employees";
+    $req = "SELECT MIN(2025 - YEAR(birth_date)) 'age' from v_current_employees_departments";
     $resultat = mysqli_query(dbconnect(), $req);
     $rows = mysqli_fetch_assoc($resultat);
     return $rows;
@@ -168,7 +156,7 @@ function getMinEmployee_age(){
 
 // Obtenir l'age maximale sur l'ensemble des employees
 function getMaxEmployee_age(){
-    $req = "SELECT MAX(2025 - YEAR(birth_date)) 'age' from employees";
+    $req = "SELECT MAX(2025 - YEAR(birth_date)) 'age' from v_current_employees_departments";
     $resultat = mysqli_query(dbconnect(), $req);
     $rows = mysqli_fetch_assoc($resultat);
     return $rows;
@@ -176,7 +164,7 @@ function getMaxEmployee_age(){
 
 // Obtenir l'age moyen sur l'ensemble des employees
 function getAverageEmployee_age(){
-    $req = "SELECT AVG(2025 - YEAR(birth_date)) 'age' from employees";
+    $req = "SELECT AVG(2025 - YEAR(birth_date)) 'age' from v_current_employees_departments";
     $resultat = mysqli_query(dbconnect(), $req);
     $rows = mysqli_fetch_assoc($resultat);
     return $rows;

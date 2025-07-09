@@ -10,6 +10,6 @@ if( $id == -1 ){
 }
 $_SESSION['compteur'] = $cmp;
 $cmp = $_SESSION['compteur'];
-header("Location: result.php");
+header("Location: modal.php?p=result.php");
 exit;
 ?>
