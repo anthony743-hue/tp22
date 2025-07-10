@@ -12,7 +12,6 @@ include("../inc/fonction.php");
     <title>Document</title>
      <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </head>
  <header>
         <nav class="navbar navbar-expand-lg">
@@ -39,4 +38,5 @@ include("../inc/fonction.php");
     <?php
         include("./".$_GET['p']);
     ?>
+     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </html>

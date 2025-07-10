@@ -23,96 +23,99 @@ if (!$info) {
     $current_salary = getCurrent_salary($id_employee);
 }
 ?>
-    <main class="container py-5">
-        <?php if (isset($error_message)) { ?>
-            <div class="alert alert-danger text-center shadow-sm" role="alert">
-                <?= $error_message; ?>
-                <div class="mt-3">
-                    <a href="javascript:history.back()" class="btn btn-secondary-custom">Retour à la recherche</a>
+<main class="container py-5">
+    <?php if (isset($error_message)) { ?>
+        <div class="alert alert-danger text-center" role="alert">
+            <?= $error_message; ?>
+            <div class="mt-3">
+                <a href="javascript:history.back()" class="btn btn-secondary">Retour à la recherche</a>
+            </div>
+        </div>
+    <?php } else { ?>
+        <div class="d-flex justify-content-end mb-3">
+            <a href="javascript:history.back()" class="btn btn-primary" role="button">Retour</a>
+        </div>
+        <div class="row g-4">
+            <section class="col-lg-6 col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light">
+                        <span>Informations Personnelles</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-item">
+                            <div>Nom Complet :</div>
+                            <div><?= htmlspecialchars($nom); ?> <?= htmlspecialchars($prenom); ?></div>
+                        </div>
+                        <div class="info-item">
+                            <div>Date de naissance :</div>
+                            <div><?= htmlspecialchars($info['birth_date'] ?? 'N/A'); ?></div>
+                        </div>
+                        <div class="info-item">
+                            <div>Sexe :</div>
+                            <div><?= isset($info['gender']) ? ($info['gender'] == 'M' ? 'Masculin' : 'Féminin') : 'N/A';?></div>
+                        </div>
+                        <div class="info-item">
+                            <div>Date d'engagement :</div>
+                            <div><?= htmlspecialchars($info['hire_date'] ?? 'N/A'); ?></div>
+                        </div>
+                        <div class="info-item">
+                            <div>Département actuel :</div>
+                            <div><?= htmlspecialchars($departmentName['dept_name']); ?></div>
+                        </div>
+                        <div class="info-item">
+                            <div>Emploi actuel :</div>
+                            <div><?= htmlspecialchars($emploi['title']); ?></div>
+                        </div>
+                        <div class="info-item">
+                            <div>Salaire actuel :</div>
+                            <div><?= htmlspecialchars(number_format($current_salary['salary'], 0, ',', ' ')); ?> $</div>
+                        </div>
+                        <div class="d-flex justify-content-evenly mt-4">
+                            <a href="modal.php?p=change.php" class="btn btn-outline-secondary" role="button">Changer de departement</a>
+                            <a href="modal.php?p=manager.php" class="btn btn-outline-success" role="button">Devenir Manager</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        <?php } else { ?>
-            <div class="row g-4">
-                <section class="col-lg-6 col-md-12">
-                    <div class="card card-customy">
-                        <div class="card-header">
-                            <span>Informations Personnelles</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="info-item">
-                                <div class="col-6">Nom Complet :</div>
-                                <div class="col-6 text-end"><?= htmlspecialchars($nom); ?> <?= htmlspecialchars($prenom); ?></div>
-                            </div>
-                            <div class="info-item">
-                                <div class="col-6">Date de naissance :</div>
-                                <div class="col-6 text-end"><?= htmlspecialchars($info['birth_date'] ?? 'N/A'); ?></div>
-                            </div>
-                            <div class="info-item">
-                                <div class="col-6">Sexe :</div>
-                                <div class="col-6 text-end"><?= isset($info['gender']) ? ($info['gender'] == 'M' ? 'Masculin' : 'Féminin') : 'N/A';?></div>
-                            </div>
-                            <div class="info-item">
-                                <div class="col-6">Date d'engagement :</div>
-                                <div class="col-6 text-end"><?= htmlspecialchars($info['hire_date'] ?? 'N/A'); ?></div>
-                            </div>
-                            <div class="info-item">
-                                <div class="col-6">Département actuel :</div>
-                                <div class="col-6 text-end"><?= htmlspecialchars($departmentName['dept_name']); ?></div>
-                            </div>
-                            <div class="info-item">
-                                <div class="col-6">Emploi actuel :</div>
-                                <div class="col-6 text-end"><?= htmlspecialchars($emploi['title']); ?></div>
-                            </div>
-                            <div class="info-item">
-                                <div class="col-6">Salaire actuel :</div>
-                                <div class="col-6 text-end"><?= htmlspecialchars(number_format($current_salary['salary'], 0, ',', ' ')); ?> $</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <a href="javascript:history.back()" class="btn btn-primary" role="button">Retour à la recherche</a>
-                        <a href="modal.php?p=change.php" class="btn btn-outline-secondary" role="button">Changer de departement</a>
-                    </div>
-                </section>
+            </section>
 
-                <section class="col-lg-6 col-md-12">
-                    <div class="card card-custom h-100">
-                        <div class="card-header">
-                            <span>Historique Professionnel</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="section-title">Postes occupés</h5>
-                            <?php if (!empty($titles)) { ?>
-                                <ul class="timeline scrollable-list">
-                                    <?php foreach($titles as $row) { ?>
-                                        <li class="timeline-item">
-                                            <h5><?= htmlspecialchars($row['title']); ?></h5>
-                                        </li>
-                                    <?php } ?>
-                                </ul>
-                            <?php } else { ?>
-                                <div class="alert alert-info text-center" role="alert">
-                                    Aucun historique de poste trouvé.
-                                </div>
-                            <?php } ?>
-
-                            <h5 class="section-title mt-4">Historique des Salaires</h5>
-                            <?php if (!empty($salaries)) { ?>
-                                <ul class="timeline scrollable-list">
-                                    <?php foreach($salaries as $row) { ?>
-                                        <li class="timeline-item">
-                                            <h5><?= htmlspecialchars(number_format($row['salary'], 0, ',', ' ')); ?> $</h5>
-                                        </li>
-                                    <?php } ?>
-                                </ul>
-                            <?php } else { ?>
-                                <div class="alert alert-info text-center" role="alert">
-                                    Aucun historique de salaire trouvé.
-                                </div>
-                            <?php } ?>
-                        </div>
+            <section class="col-lg-6 col-md-12">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-light">
+                        <span>Historique Professionnel</span>
                     </div>
-                </section>
-            </div>
-        <?php } ?>
-    </main>
+                    <div class="card-body">
+                        <h5 class="section-title">Postes occupés</h5>
+                        <?php if (!empty($titles)) { ?>
+                            <ul class="timeline  scrollable-list">
+                                <?php foreach($titles as $row) { ?>
+                                    <li class="timeline-item">
+                                        <h5><?= htmlspecialchars($row['title']); ?></h5>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        <?php } else { ?>
+                            <div class="alert alert-info text-center" role="alert">
+                                ...
+                            </div>
+                        <?php } ?>
+
+                        <h5 class="section-title mt-4">Historique des Salaires</h5>
+                        <?php if (!empty($salaries)) { ?>
+                            <ul class="timeline scrollable-list">
+                                <?php foreach($salaries as $row) { ?>
+                                    <li class="timeline-item">
+                                        <h5><?= htmlspecialchars(number_format($row['salary'], 0, ',', ' ')); ?> $</h5>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        <?php } else { ?>
+                            <div class="alert alert-info text-center" role="alert">
+                                Aucun historique de salaire trouvé.
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </section>
+        </div>
+    <?php } ?>
+</main>

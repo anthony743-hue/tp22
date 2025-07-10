@@ -19,7 +19,7 @@ create or replace view v_current_managers_departments
 as select dept_name, v1.dept_no 'dept_no', v1.emp_no 'emp_no', v1.birth_date 'birth_date', 
 v1.first_name 'first_name', v1.last_name 'last_name', v1.gender 'gender', v1.hire_date 'hire_date',
 v1.from_date 'from_date', v1.to_date 'to_date', count(v3.emp_no) as compte from v_managers_departments v1
-JOIN departments v2 ON v1.dept_no = v2.dept_no
+JOIN v_current_departments v2 ON v1.dept_no = v2.dept_no
 JOIN v_current_employees_departments v3 ON v1.dept_no = v3.dept_no
 WHERE v1.to_date = ( select max(to_date) from v_managers_departments )
 GROUP BY v1.dept_no ORDER BY dept_name;

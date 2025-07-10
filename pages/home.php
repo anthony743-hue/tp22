@@ -7,7 +7,7 @@ $max = getMaxEmployee_age()['age'];
 ?>
     <main class="container py-5">
         <div class="main-content-section">
-            <div class="form-section">
+            <div>
                 <h3 class="mb-4 text-center">Rechercher des Employés</h3>
                 <form action="traitement_recherche.php" method="post">
                     <div class="form-row-custom">
@@ -32,8 +32,8 @@ $max = getMaxEmployee_age()['age'];
                             <label for="maxAge" class="form-label">Âge Max :</label>
                             <input type="number" class="form-control" id="maxAge" name="max" value="<?= $max ?>" min="<?= $avg; ?>" max="<?= $max; ?>" required>
                         </div>
-                        <div class="h-25">
-                            <button type="submit" class="btn btn-primary">Rechercher</i></button>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Rechercher</button>
                         </div>
                     </div>
                 </form>
@@ -41,15 +41,15 @@ $max = getMaxEmployee_age()['age'];
 
             <hr class="my-5">
 
-            <div class="table-section">
+            <div>
                 <h3 class="mb-4 text-center">Managers par Département</h3>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover align-middle">
                         <thead class="table-dark">
                             <tr>
                                 <th scope="col">Département</th>
-                                <th scope="col">Nom du Manager</th>
-                                <th scope="col">Prénom du Manager</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
                                 <th scope="col">Nombre d'Employés</th>
                             </tr>
                         </thead>

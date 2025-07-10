@@ -171,11 +171,10 @@ function getAverageEmployee_age(){
 }
 
 function getRelative_Employees($dep,$name, $min, $max, $count){
-    $req = "SELECT * FROM employees WHERE first_name LIKE '%s'
+    $req = "SELECT * FROM v_current_employees_departments WHERE first_name LIKE '%s'
     AND (2025 - YEAR(birth_date)) >= '%s' AND(2025 - YEAR(birth_date))<= '%s'
-     AND emp_no IN ( SELECT employees.emp_no FROM departments JOIN
-dept_emp ON departments.dept_no = dept_emp.dept_no
-JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name LIKE '%s' ) LIMIT %d, 20";
+     AND emp_no IN ( SELECT v1.emp_no FROM v_current_departments cd
+     JOIN v_current_employees_departments v1 ON v1.dept_no = cd.dept_no WHERE cd.dept_name LIKE '%s' ) LIMIT %d, 20";
     $req = sprintf($req, $name, $min, $max, $dep, $count);
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
@@ -187,7 +186,7 @@ JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name
 }
 
 function getRelate_Employees($name, $min, $max, $count){
-    $req = "SELECT * FROM employees WHERE first_name LIKE '%s'
+    $req = "SELECT * FROM v_current_employees_departments WHERE first_name LIKE '%s'
     AND (2025 - YEAR(birth_date)) >= '%s' AND(2025 - YEAR(birth_date))<= '%s' LIMIT %d, 20";
     $req = sprintf($req, $name, $min, $max, $count);
     $resultat = mysqli_query(dbconnect(), $req);
@@ -200,7 +199,7 @@ function getRelate_Employees($name, $min, $max, $count){
 }
 
 function getEmployees($min, $max, $count){
-    $req = "SELECT * FROM employees WHERE 1 = 1 
+    $req = "SELECT * FROM v_current_employees_departments WHERE 1 = 1 
     AND (2025 - YEAR(birth_date)) >= '%s' AND(2025 - YEAR(birth_date))<= '%s' LIMIT %d, 20";
     $req = sprintf($req, $name, $name, $min, $max, $count);
     $resultat = mysqli_query(dbconnect(), $req);
@@ -212,18 +211,11 @@ function getEmployees($min, $max, $count){
     return $retour; 
 }
 
-function test($phrase){
-    $req = "SELECT * FROM employees WHERE 1 = 1 %s";
-    $req = sprintf($req, $phrase);
-    echo $req;
-}
-
 function count_result($dep,$name, $min, $max){
-    $req = "SELECT count(emp_no) as compte FROM employees WHERE first_name LIKE '%s' 
+    $req = "SELECT count(emp_no) as compte FROM v_current_employees_departments WHERE first_name LIKE '%s' 
     AND (2025 - YEAR(birth_date)) >= '%s' AND(2025 - YEAR(birth_date))<= '%s'
-     AND emp_no IN ( SELECT employees.emp_no FROM departments JOIN
-dept_emp ON departments.dept_no = dept_emp.dept_no
-JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name LIKE '%s' )";
+     AND emp_no IN ( SELECT v1.emp_no FROM v_current_departments cd
+     JOIN v_current_employees_departments v1 ON v1.dept_no = cd.dept_no WHERE cd.dept_name LIKE '%s' )";
  $req = sprintf($req, $name, $min, $max, $dep);
     $resultat = mysqli_query(dbconnect(), $req);
     $rows = mysqli_fetch_assoc($resultat);
@@ -231,7 +223,7 @@ JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name
 }  
 
 function count_resultat($name, $min, $max){
-    $req = "SELECT count(emp_no) as compte FROM employees WHERE first_name LIKE '%s' 
+    $req = "SELECT count(emp_no) as compte FROM v_current_employees_departments WHERE first_name LIKE '%s' 
     AND (2025 - YEAR(birth_date)) >= '%s' AND(2025 - YEAR(birth_date))<= '%s'";
  $req = sprintf($req, $name, $min, $max);
     $resultat = mysqli_query(dbconnect(), $req);
@@ -240,10 +232,9 @@ function count_resultat($name, $min, $max){
 }
 
 function count_val($dep, $min, $max){
-    $req = "SELECT count(emp_no) as compte FROM employees WHERE 1=1 
-    AND (2025 - YEAR(birth_date)) >= '%s' AND(2025 - YEAR(birth_date))<= '%s' AND emp_no IN ( SELECT employees.emp_no FROM departments JOIN
-dept_emp ON departments.dept_no = dept_emp.dept_no
-JOIN employees ON dept_emp.emp_no = employees.emp_no WHERE departments.dept_name LIKE '%s' )";
+    $req = "SELECT count(emp_no) as compte FROM v_current_employees_departments WHERE 1=1 
+    AND (2025 - YEAR(birth_date)) >= '%s' AND(2025 - YEAR(birth_date))<= '%s' AND emp_no IN ( SELECT v1.emp_no FROM v_current_departments cd
+     JOIN v_current_employees_departments v1 ON v1.dept_no = cd.dept_no WHERE cd.dept_name LIKE '%s' )";
  $req = sprintf($req, $min, $max, $dep);
     $resultat = mysqli_query(dbconnect(), $req);
     $rows = mysqli_fetch_assoc($resultat);
