@@ -32,7 +32,7 @@ mysqli_query(dbconnect(), $req);
 
 // Obtenir la liste des noms des departements distincts
 function getDepartments(){
-    $req = "SELECT * from departments GROUP BY dept_name";
+    $req = "SELECT * from v_current_departments";
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
     while( $done = mysqli_fetch_assoc($resultat) ){
@@ -40,6 +40,14 @@ function getDepartments(){
     }
     mysqli_free_result($resultat);
     return $retour; 
+}
+
+function getManager($dept_no){
+    $req = "SELECT * from v_current_managers_departments WHERE dept_no LIKE '%s'";
+    $req = sprintf($req, $dept_no);
+    $resultat = mysqli_query(dbconnect(), $req);
+    $rows = mysqli_fetch_assoc($resultat);
+    return $rows;
 }
 
 // Obtenir la listes des managers en cours pour chacun des departements

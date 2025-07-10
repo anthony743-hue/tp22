@@ -10,13 +10,12 @@ if( !isset($_SESSION['compteur']) ){
 }
 $cmp = $_SESSION['compteur'];
 $emp = ($dep == "Tous" ) ? getRelate_Employees($name, $min, $max, $cmp) : getRelative_Employees($dep, $name, $min, $max, $cmp);
-$resultsToDisplay = $emp;
 ?>
 <main class="container py-4">
     <h1 class="mb-4 text-center">Résultats de Recherche d'Employés</h1>
     
     <div style="overflow-y: scroll; height: 380px;">
-        <?php if (!empty($resultsToDisplay)) { ?>
+        <?php if (!empty( $emp)) { ?>
             <div class="table-responsive">
                 <table class="table table-striped table-hover align-middle">
                     <thead class="table-dark">
@@ -27,7 +26,7 @@ $resultsToDisplay = $emp;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $count = 0; foreach ($resultsToDisplay as $employee) { $count++; ?>
+                        <?php $count = 0; foreach ( $emp as $employee) { $count++; ?>
                             <tr>
                                 <td><?= $count; ?></td>
                                 <td>

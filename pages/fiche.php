@@ -72,7 +72,7 @@ if (!$info) {
                         </div>
                         <div class="d-flex justify-content-evenly mt-4">
                             <a href="modal.php?p=change.php" class="btn btn-outline-secondary" role="button">Changer de departement</a>
-                            <a href="modal.php?p=manager.php" class="btn btn-outline-success" role="button">Devenir Manager</a>
+                            <a href="modal.php?p=manager.php&nom=<?= $nom;?>&prenom=<?= $prenom; ?>" class="btn btn-outline-success" role="button">Devenir Manager</a>
                         </div>
                     </div>
                 </div>

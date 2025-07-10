@@ -195,3 +195,12 @@ h3 {
 .scrollable-list li:last-child {
     border-bottom: none;
 }
+
+.card-header-custom {
+    background-image: linear-gradient(to right, #007bff, #0056b3); /* A slightly more dynamic header color */
+    color: white;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+.form-label {
+    font-weight: 500; /* Make labels a bit bolder */
+}
