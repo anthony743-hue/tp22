@@ -16,7 +16,8 @@ $manager = getManager($info['dept_no']);
                 <div class="card shadow-lg border-0"> <div class="card-header card-header-custom">
                         <h4 class="mb-0">Candidature au Poste de Manager</h4>
                     </div>
-                    <div class="card-body p-4"> <form>
+                    <div class="card-body p-4"> 
+                        <form action="traitement_manager.php" method="post">
                             <div class="mb-4"> <label for="dateDisponibilite" class="form-label">Date de Debut</label>
                                 <input type="date" class="form-control form-control-lg" id="dateDisponibilite" required> <div class="form-text text-muted">
                                     Veuillez indiquer la date à partir de laquelle vous seriez disponible pour le poste.
@@ -24,7 +25,7 @@ $manager = getManager($info['dept_no']);
                             </div>
                             <div class="d-grid gap-3 mt-4"> 
                                 <button type="submit" class="btn btn-primary">Soumettre la Candidature</button> 
-                                <button type="reset" class="btn btn-outline-secondary">Réinitialiser</button>
+                                <a href="modal.php?p=fiche.php&nom=<?= $nom; ?>&prenom=<?= $prenom; ?>" class="btn btn-outline-secondary" role="button">Réinitialiser</a>
                             </div>
                         </form>
                     </div>

@@ -3,59 +3,70 @@ $dep = $_SESSION['departement'];
 $name = $_SESSION['nom'];
 $min = $_SESSION['min'];
 $max = $_SESSION['max'];
-$_SESSION['size'] = ($dep == "Tous" ) ? count_resultat($name, $min, $max) : count_result($dep, $name, $min, $max);
+$_SESSION['size'] = count_Employees_Filtered($dep, $name, $min, $max);
 $size = $_SESSION['size'];
-if( !isset($_SESSION['compteur']) ){
+if (!isset($_SESSION['compteur'])) {
     $_SESSION['compteur'] = 0;
 }
 $cmp = $_SESSION['compteur'];
-$emp = ($dep == "Tous" ) ? getRelate_Employees($name, $min, $max, $cmp) : getRelative_Employees($dep, $name, $min, $max, $cmp);
+$emp = getEmployees_filtered($dep, $name, $min, $max, $cmp);
 ?>
-<main class="container py-4">
-    <h1 class="mb-4 text-center">Résultats de Recherche d'Employés</h1>
-    
-    <div style="overflow-y: scroll; height: 380px;">
-        <?php if (!empty( $emp)) { ?>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nom Complet</th>
-                            <th scope="col">Informations</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $count = 0; foreach ( $emp as $employee) { $count++; ?>
-                            <tr>
-                                <td><?= $count; ?></td>
-                                <td>
-                                    <?= htmlspecialchars($employee['first_name']); ?> <?= htmlspecialchars($employee['last_name']); ?>
-                                </td>
-                                <td>
-                                    <a href="modal.php?p=fiche.php&nom=<?= urlencode($employee['first_name']); ?>&prenom=<?= urlencode($employee['last_name']); ?>" class="btn btn-outline-primary btn-sm">
-                                        Voir plus
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+
+<main class="container-fluid py-4 px-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="employee-title">
+                    <span class="employee-count"><?= $size ?></span> Employee
+                </h1>
             </div>
-        <?php } else { ?>
-            <div class="alert alert-warning text-center" role="alert">
-                Aucun employé trouvé correspondant a vos critères de recherche.
-            </div>
-        <?php } ?>
+        </div>
     </div>
-    
-    <div class="d-flex justify-content-evenly mt-4">
-        <?php if( $cmp > 0 ){ ?>                    
-            <a href="traitement_next.php?id=-1" class="btn btn-secondary btn-lg">Precedent</a>
-        <?php } ?>
-        <?php if( $cmp + 20 < $size ){ ?> 
-            <a href="traitement_next.php?id=1" class="btn btn-secondary btn-lg">Suivant</a>
-        <?php } ?>
-        <a href="modal.php?p=home.php" class="btn btn-secondary btn-lg">Retour à la recherche</a>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="employee-container">
+                <?php if (!empty($emp)) { ?>
+                    <div class="row g-4">
+                        <?php foreach ($emp as $employee) { ?>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="employee-card">
+                                    <div class="card-body">
+                                        <h5 class="employee-name">
+                                            <?= htmlspecialchars($employee['first_name']); ?> <?= htmlspecialchars($employee['last_name']); ?>
+                                        </h5>
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                <?php } else { ?>
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Aucun employees trouves</h3>
+                        <p>Aucun employees remplient vos criteres</p>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="pagination-container">
+                <div class="pagination-controls">
+                    <?= display_next_previous_button($cmp, $size); ?>
+                </div>
+                <div class="back-button">
+                    <a href="modal.php?p=home.php" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Search
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </main>

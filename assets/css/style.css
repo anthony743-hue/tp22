@@ -204,3 +204,255 @@ h3 {
 .form-label {
     font-weight: 500; /* Make labels a bit bolder */
 }
+/* En-tête */
+.employee-title {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #333;
+    margin: 0;
+}
+
+.employee-count {
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.btn-filter {
+    background: white;
+    border: 1px solid #e9ecef;
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-filter:hover {
+    background: #f8f9fa;
+    border-color: #6c757d;
+}
+
+.btn-add-candidate {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-add-candidate:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* Container des employés */
+.employee-container {
+    min-height: 400px;
+}
+
+/* Cartes employés */
+.employee-card {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.employee-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+/* En-tête de carte */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px 20px 0;
+}
+
+.employee-avatar {
+    position: relative;
+}
+
+.avatar-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.status-indicator.online {
+    background: #10b981;
+}
+
+.status-indicator.offline {
+    background: #ef4444;
+}
+
+.card-menu {
+    padding: 5px;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.menu-btn:hover {
+    background: #f8f9fa;
+    color: #333;
+}
+
+/* Corps de carte */
+.card-body {
+    padding: 20px;
+}
+
+.employee-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 5px 0;
+}
+
+.employee-role {
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 20px 0;
+}
+
+/* Actions de carte */
+.card-actions {
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.btn-view-profile {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-view-profile:hover {
+    background: #1d4ed8;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* État vide */
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: #666;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: #e9ecef;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+/* Navigation */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 20px 15px;
+    }
+    
+    .employee-title {
+        font-size: 1.5rem;
+    }
+    
+    .header-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .pagination-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .employee-card {
+        margin-bottom: 20px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.employee-card {
+    animation: fadeIn 0.5s ease-out;
+}

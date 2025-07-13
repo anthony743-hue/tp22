@@ -1,7 +1,6 @@
 <?php
 $dep = getDepartments();
 $dep_m = getDepartments_manager();
-$min = getMinEmployee_age()['age'];
 $avg = (int) getAverageEmployee_age()['age'];
 $max = getMaxEmployee_age()['age'];
 ?>
@@ -16,7 +15,7 @@ $max = getMaxEmployee_age()['age'];
                             <select name="departement" id="departementSelect" class="form-select">
                                 <option value="Tous">Tous</option>
                                 <?php foreach($dep as $row) { ?>
-                                    <option value="<?= $row['dept_name']; ?>"><?= $row['dept_name']; ?></option>
+                                    <option value="<?= $row['dept_no']; ?>"><?= $row['dept_name']; ?></option>
                                 <?php } ?>
                             </select>
                         </div>

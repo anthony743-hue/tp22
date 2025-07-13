@@ -38,7 +38,7 @@ if (!$info) {
         <div class="row g-4">
             <section class="col-lg-6 col-md-12">
                 <div class="card shadow-sm">
-                    <div class="card-header bg-light">
+                    <div class="card-header bg-light p-2">
                         <span>Informations Personnelles</span>
                     </div>
                     <div class="card-body">
@@ -80,7 +80,7 @@ if (!$info) {
 
             <section class="col-lg-6 col-md-12">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-light">
+                    <div class="card-header bg-light p-2">
                         <span>Historique Professionnel</span>
                     </div>
                     <div class="card-body">
