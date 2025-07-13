@@ -21,7 +21,8 @@ function init_managers_departments(){
     $req = "create or replace view v_managers_departments
 as select dept_no, v1.emp_no, birth_date, first_name, last_name, gender, hire_date,
 from_date, to_date 
-FROM employees v1 JOIN dept_manager v2 ON v1.emp_no = v2.emp_no";
+FROM employees v1 JOIN dept_manager v2 ON v1.emp_no = v2.emp_no
+ORDER BY dept_no";
 mysqli_query(dbconnect(), $req);
 }
 
@@ -141,7 +142,7 @@ function getDepartments_manager(){
 // Obtenir les employees d'un departement
 function getEmployees_departments($name){
     $req = "SELECT * FROM  v_current_employees_departments
-     WHERE dept_no LIKE '%s'";
+     WHERE dept_no LIKE '%s' AND emp_no NOT IN ( SELECT emp_no FROM  v_current_managers_departments )";
     $req = sprintf($req, $name);
     $resultat = mysqli_query(dbconnect(), $req);
     $retour = array();
@@ -243,19 +244,15 @@ function getManager($dept_no){
 
 function updateActualManager($emp_no, $date){
     $req = "UPDATE dept_manager SET to_date = '%s' WHERE emp_no  = '%s'";
-    $req = sprintf($req, $emp_no, $date);
+    $req = sprintf($req, $date, $emp_no);
     mysqli_query(dbconnect(), $req);
 }
 
 function insert_new_manager($emp_no, $dept_no, $date){
-    $req = "INSERT INTO dept_emp VALUES('%d', '%s', '%s', '9999-01-01')";
+    $req = "INSERT INTO dept_manager VALUES('%d', '%s', '%s', '9999-01-01')";
     $req = sprintf($req, $emp_no, $dept_no, $date);
      mysqli_query(dbconnect(), $req);
 }
-
-// function getPagination($size, $pas){
-//     return 0;
-// }
 
 function getEmployees_filtered($dep, $name, $min, $max, $count){
     $req = "SELECT * FROM v_current_employees_departments WHERE 1 = 1";
