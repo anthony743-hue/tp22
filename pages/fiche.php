@@ -33,7 +33,7 @@ if (!$info) {
         </div>
     <?php } else { ?>
         <div class="d-flex justify-content-end mb-3">
-            <a href="javascript:history.back()" class="btn btn-primary" role="button">Retour</a>
+            <a href="modal.php?p=employee.php&nom=<?= $info['dept_no']; ?>" class="btn btn-primary" role="button">Retour</a>
         </div>
         <div class="row g-4">
             <section class="col-lg-6 col-md-12">

@@ -1,4 +1,5 @@
 <?php
+ini_set("display_errors",1);
 session_start();
 include("../inc/fonction.php");
 $_SESSION['departement'] = isset($_POST['departement']) ? $_POST['departement'] : '';
