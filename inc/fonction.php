@@ -64,12 +64,32 @@ ORDER BY
 mysqli_query(dbconnect(), $req);
 }
 
+function init_salary(){
+    $req = "create or replace view v_salary_title as
+    SELECT
+    v2.title as 'emploi',
+    SUM(CASE WHEN gender = 'M' THEN 1 ELSE 0 END) AS male_count,
+    SUM(CASE WHEN gender = 'F' THEN 1 ELSE 0 END) AS female_count,
+    AVG(v3.salary) AS medium_salary
+FROM
+    v_current_employees_departments v1
+JOIN 
+    titles v2 ON v2.emp_no = v1.emp_no
+JOIN
+    salaries v3 ON v3.emp_no = v1.emp_no
+WHERE v2.to_date = ( SELECT max(to_date) FROM titles ) 
+and v3.to_date = ( SELECT max(to_date) FROM salaries )
+GROUP BY v2.title";
+mysqli_query(dbconnect(), $req);
+}
+
 function init_view(){
     initEmployees();
     init_current_Employees();
     init_current_departments();
     init_managers_departments();
     init_current_managers_departments();
+    init_salary();
 }
 
 // 1. Home.php
