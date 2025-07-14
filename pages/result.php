@@ -35,8 +35,6 @@ $emp = getEmployees_filtered($dep, $name, $min, $max, $cmp);
                                         <h5 class="employee-name">
                                             <?= htmlspecialchars($employee['first_name']); ?> <?= htmlspecialchars($employee['last_name']); ?>
                                         </h5>
-                                        
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -44,9 +42,6 @@ $emp = getEmployees_filtered($dep, $name, $min, $max, $cmp);
                     </div>
                 <?php } else { ?>
                     <div class="empty-state">
-                        <div class="empty-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
                         <h3>Aucun employees trouves</h3>
                         <p>Aucun employees remplient vos criteres</p>
                     </div>
@@ -58,12 +53,12 @@ $emp = getEmployees_filtered($dep, $name, $min, $max, $cmp);
     <div class="row mt-4">
         <div class="col-12">
             <div class="pagination-container">
-                <div class="pagination-controls">
+                <div>
                     <?= display_next_previous_button($cmp, $size); ?>
                 </div>
-                <div class="back-button">
+                <div>
                     <a href="modal.php?p=home.php" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left me-2"></i>Back to Search
+                        Retour a la recherche
                     </a>
                 </div>
             </div>

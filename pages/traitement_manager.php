@@ -11,6 +11,7 @@ $date = isset($_POST['date']) ? $_POST['date'] : '';
 
 $date_input = new DateTime($date);
 $date_e = new DateTime($info['from_date']);
+$date_e_fin = new DateTime($info['to_date']);
 $date_m = new DateTime($manager['from_date']);
 
 $link = "modal.php?p=manager.php&nom=".$nom."&prenom=".$prenom."&error=date";
@@ -18,7 +19,7 @@ if( $date_input <= $date_m ){
     header("Location: ".$link);
     exit;
 }
-if( $date_input < $date_e ){
+if( $date_input < $date_e || $date_input > $date_e_fin ){
     header("Location: ".$link);
     exit;
 }

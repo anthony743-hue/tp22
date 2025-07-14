@@ -7,17 +7,17 @@ $employees = getEmployees_departments($department_id);
 <main class="container py-4">
     <div class="main-content-section">
         <div class="text-center mt-4">
-            <a href="javascript:history.back()" class="btn btn-outline-secondary" role="button">Retour a l'Accueil</a>
+            <a href="modal.php?p=home.php" class="btn btn-outline-secondary" role="button">Retour a l'Accueil</a>
         </div>
-        <h1 class="mb-4 ps-4">Employés du Département: <span class="text-primary"><?= htmlspecialchars($departmentName['dept_name'] ?? 'Inconnu'); ?></span></h1>
+        <h1 class="mb-4">Employés du Département: <span class="text-primary"><?= htmlspecialchars($departmentName['dept_name'] ?? 'Inconnu'); ?></span></h1>
 
         <div>
             <?php if (!empty($employees)) { ?>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover align-middle">
+                    <table class="table table-striped">
                         <thead class="table-dark">
                             <tr>
-                                <th scope="col">Nom Complet</th>
+                                <th>Nom Complet</th>
                             </tr>
                         </thead>
                         <tbody>

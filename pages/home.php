@@ -43,13 +43,13 @@ $max = getMaxEmployee_age()['age'];
             <div>
                 <h3 class="mb-4 text-center">Managers par Département</h3>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover align-middle">
+                    <table class="table table-striped">
                         <thead class="table-dark">
                             <tr>
-                                <th scope="col">Département</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Prénom</th>
-                                <th scope="col">Nombre d'Employés</th>
+                                <th>Département</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Nombre d'Employés</th>
                             </tr>
                         </thead>
                         <tbody>

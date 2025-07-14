@@ -28,18 +28,18 @@ if (!$info) {
         <div class="alert alert-danger text-center" role="alert">
             <?= $error_message; ?>
             <div class="mt-3">
-                <a href="javascript:history.back()" class="btn btn-secondary">Retour à la recherche</a>
+                 <a href="modal.php?p=home.php" class="btn btn-primary">Revenir à l'accueil</a>
             </div>
         </div>
     <?php } else { ?>
         <div class="d-flex justify-content-end mb-3">
-            <a href="modal.php?p=employee.php&nom=<?= $info['dept_no']; ?>" class="btn btn-primary" role="button">Retour</a>
+            <a href="modal.php?p=employee.php&nom=<?= $info['dept_no']; ?>" class="btn btn-primary">Retour</a>
         </div>
         <div class="row g-4">
             <section class="col-lg-6 col-md-12">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light p-2">
-                        <span>Informations Personnelles</span>
+                        Informations Personnelles
                     </div>
                     <div class="card-body">
                         <div class="info-item">
@@ -71,8 +71,8 @@ if (!$info) {
                             <div><?= htmlspecialchars(number_format($current_salary['salary'], 0, ',', ' ')); ?> $</div>
                         </div>
                         <div class="d-flex justify-content-evenly mt-4">
-                            <a href="modal.php?p=change.php" class="btn btn-outline-secondary" role="button">Changer de departement</a>
-                            <a href="modal.php?p=manager.php&nom=<?= $nom;?>&prenom=<?= $prenom; ?>" class="btn btn-outline-success" role="button">Devenir Manager</a>
+                            <a href="modal.php?p=change.php" class="btn btn-outline-secondary">Changer de département</a>
+                            <a href="modal.php?p=manager.php&nom=<?= $nom;?>&prenom=<?= $prenom; ?>" class="btn btn-outline-success">Devenir Manager</a>
                         </div>
                     </div>
                 </div>
@@ -81,21 +81,21 @@ if (!$info) {
             <section class="col-lg-6 col-md-12">
                 <div class="card shadow-sm h-100">
                     <div class="card-header bg-light p-2">
-                        <span>Historique Professionnel</span>
+                        Historique Professionnel
                     </div>
                     <div class="card-body">
                         <h5 class="section-title">Postes occupés</h5>
                         <?php if (!empty($titles)) { ?>
-                            <ul class="timeline  scrollable-list">
+                            <ul class="timeline scrollable-list">
                                 <?php foreach($titles as $row) { ?>
                                     <li class="timeline-item">
-                                        <h5><?= htmlspecialchars($row['title']); ?></h5>
+                                        <?= htmlspecialchars($row['title']); ?>
                                     </li>
                                 <?php } ?>
                             </ul>
                         <?php } else { ?>
-                            <div class="alert alert-info text-center" role="alert">
-                                ...
+                            <div class="alert alert-info text-center">
+                                Aucun poste précédent trouvé.
                             </div>
                         <?php } ?>
 
@@ -104,12 +104,12 @@ if (!$info) {
                             <ul class="timeline scrollable-list">
                                 <?php foreach($salaries as $row) { ?>
                                     <li class="timeline-item">
-                                        <h5><?= htmlspecialchars(number_format($row['salary'], 0, ',', ' ')); ?> $</h5>
+                                        <?= htmlspecialchars(number_format($row['salary'], 0, ',', ' ')); ?> $
                                     </li>
                                 <?php } ?>
                             </ul>
                         <?php } else { ?>
-                            <div class="alert alert-info text-center" role="alert">
+                            <div class="alert alert-info text-center">
                                 Aucun historique de salaire trouvé.
                             </div>
                         <?php } ?>

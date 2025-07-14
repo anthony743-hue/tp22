@@ -1,6 +1,7 @@
 <?php
 require("connect.php");
 
+// Initialise la view v_employees_departments
 function initEmployees(){
     $req = "create or replace view v_employees_departments
 as select dept_no, v1.emp_no, birth_date, first_name, last_name, gender, hire_date,
@@ -10,6 +11,7 @@ JOIN dept_emp v2 ON v1.emp_no = v2.emp_no";
 mysqli_query(dbconnect(), $req);
 }
 
+// Initialise la view v_current_employees_departments
 function init_current_Employees(){
     $req = "create or replace view v_current_employees_departments
 as select * FROM v_employees_departments 
@@ -17,6 +19,7 @@ WHERE to_date = ( select max(to_date) FROM v_employees_departments )";
 mysqli_query(dbconnect(), $req);
 }
 
+// Initialise la view v_managers_departments
 function init_managers_departments(){
     $req = "create or replace view v_managers_departments
 as select dept_no, v1.emp_no, birth_date, first_name, last_name, gender, hire_date,
@@ -26,12 +29,14 @@ ORDER BY dept_no";
 mysqli_query(dbconnect(), $req);
 }
 
+// Initialise la view v_current_departments
 function init_current_departments(){
     $req = "create or replace view v_current_departments
 as select * from departments";
 mysqli_query(dbconnect(), $req);
 }
 
+// Initialise la view v_current_managers_departments
 function init_current_managers_departments(){
     $req = "create or replace view v_current_managers_departments
 as SELECT
@@ -65,6 +70,7 @@ ORDER BY
 mysqli_query(dbconnect(), $req);
 }
 
+// Initialise la view v_salary_title
 function init_salary(){
     $req = "create or replace view v_salary_title as
     SELECT
@@ -84,6 +90,7 @@ GROUP BY v2.title";
 mysqli_query(dbconnect(), $req);
 }
 
+// Initialise tous les view
 function init_view(){
     initEmployees();
     init_current_Employees();
@@ -242,18 +249,21 @@ function getManager($dept_no){
     return $rows;
 }
 
+// Modifie la date de fin de contrat d'un manager
 function updateActualManager($emp_no, $date){
     $req = "UPDATE dept_manager SET to_date = '%s' WHERE emp_no  = '%s'";
     $req = sprintf($req, $date, $emp_no);
     mysqli_query(dbconnect(), $req);
 }
 
+// Ajoute un nouveau manager dept_manager
 function insert_new_manager($emp_no, $dept_no, $date){
     $req = "INSERT INTO dept_manager VALUES('%d', '%s', '%s', '9999-01-01')";
     $req = sprintf($req, $emp_no, $dept_no, $date);
      mysqli_query(dbconnect(), $req);
 }
 
+// Getter les employees filtre par departement, par nom, par age
 function getEmployees_filtered($dep, $name, $min, $max, $count){
     $req = "SELECT * FROM v_current_employees_departments WHERE 1 = 1";
 
@@ -272,6 +282,7 @@ function getEmployees_filtered($dep, $name, $min, $max, $count){
     return $retour; 
 }
 
+// Obtenir le resultat totale des employees filtre par departement, par nom, par age
 function count_Employees_Filtered($dep, $name, $min, $max){
     $req = "SELECT count(emp_no) as compte FROM v_current_employees_departments WHERE 1 = 1";
 
@@ -285,6 +296,7 @@ function count_Employees_Filtered($dep, $name, $min, $max){
     return $rows['compte'];
 }
 
+// Afficher les bouttons next et previous
 function display_next_previous_button($cmp, $size){
     $previous_enabled = ( $cmp > 0 ) ? "" : "disabled";
     $next_enabled = ( $cmp + 20 < $size ) ? "" : "disabled";

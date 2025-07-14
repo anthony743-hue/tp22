@@ -1,0 +1,71 @@
+modal.php   
+    -preparer la structure du modele
+        -cote fonctionnel
+            importer fonction.php ok
+
+        -coter interface
+            -header ok
+             -recoit comme parametre "p" (il peut s'agir de n'importe quelle page, tant qu'on souhaitera l'afficher) ok
+            -footer En cours
+
+home.php
+    -cote fonctionnel
+        -getDepartments ok
+        -getDepartments_manager ok
+        -getAvrEmployee_Age ok
+        -getMaxEmployee_Age ok
+
+    -cote interface 
+        -formulaire
+            -dropDownList (list des departements) ok
+            -input-text (nom d'employe) ok
+            -input-number * 2 (age min / age max) ok
+
+        -tableau des managers repartis par departement 
+            Departement ok
+            nom ok
+            prenom ok
+            Nombre d'emplois ok
+
+employee.php ( page d'affichage des employees du departement clique dans home.php )
+    -cote fonctionnel
+        id_dep : getter l'id_departement ok
+        departmentName(id_dep) ok
+
+    -cote interface
+        h1 : Employes du departement 
+        tableau d'affichage des employees
+
+fiche.php ( page qui affiche la fiche d'un employee selectionne dans employee.php )
+    -cote fonctionnel
+        nom : getter le nom ok
+        prenom : getter le prenom ok
+        getInfo(nom, prenom) ok
+
+    -cote interface
+        -informations perso
+            nom
+            birth_day
+            sexe
+            date d'engagement
+            departement actuel
+            emploi actuel
+            salaire actuel
+
+        -historique pro
+            historique salaires
+
+            historique des poste
+
+
+result.php ( page d'affichage des resultats suivi les parametres taper dans formulaire (ref : home.php) )
+    -cote fonctionnel
+        count_Employees_Filtered
+        getEmployees_filtered
+
+    -cote interface
+        employee-card
+            nom-prenom
+
+        
+
